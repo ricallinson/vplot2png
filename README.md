@@ -12,4 +12,4 @@
 
 ## Use
 
-	vplot2png ./fixtures/test.vplot ./test.jpg
+	vplot2png ./fixtures/test.vplot ./test.png
