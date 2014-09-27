@@ -1,50 +1,68 @@
-package main 
+package main
 
 import (
-    "fmt"
-    "flag"
-    "image"
-    "image/color"
-    "image/png" 
-    "os"
-) 
+	"bufio"
+	"flag"
+	"fmt"
+	"image"
+	"image/color"
+	"image/png"
+	"os"
+)
 
-func plot(data *os.File) *image.Gray {
-    // Work out the size from the source vplot file.
-    img := image.NewGray(image.Rect(0, 0, 100, 100)) 
-    for x := 20; x < 80; x++ { 
-        y := x/3 + 15 
-        img.Set(x, y, color.Black) 
-    }
-    return img
+type plot struct {
+	cmd string
+	x   int
+	y   int
 }
 
-func main() { 
+func read(f *os.File) (plots []plot) {
 
-    flag.Parse()
-    vplot := flag.Arg(0)
-    dest := flag.Arg(1)
+	scanner := bufio.NewScanner(f)
 
-    if vplot == "" {
-        fmt.Println("A source vplot file must be provide as the first argument.")
-        return
-    }
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
 
-    if dest == "" {
-        fmt.Println("A destination file must be provide as the second argument.")
-        return
-    }
+	return plots
+}
 
-    vplotData, err := os.Open(vplot)
+func draw(plots []plot) *image.Gray {
+	// Work out the size from the source vplot file.
+	img := image.NewGray(image.Rect(0, 0, 100, 100))
+	for x := 20; x < 80; x++ {
+		y := x/3 + 15
+		img.Set(x, y, color.Black)
+	}
+	return img
+}
 
-    if err != nil {
-        fmt.Println("Could not open the source vplot file.")
-        return
-    }
+func main() {
 
-    destData := plot(vplotData)
+	flag.Parse()
+	vplot := flag.Arg(0)
+	dest := flag.Arg(1)
 
-    file, _ := os.Create(dest)
-    defer file.Close()
-    png.Encode(file, destData)
-} 
+	if vplot == "" {
+		fmt.Println("A source vplot file must be provide as the first argument.")
+		return
+	}
+
+	if dest == "" {
+		fmt.Println("A destination file must be provide as the second argument.")
+		return
+	}
+
+	vplotData, err := os.Open(vplot)
+
+	if err != nil {
+		fmt.Println("Could not open the source vplot file.")
+		return
+	}
+
+	destData := draw(read(vplotData))
+
+	file, _ := os.Create(dest)
+	defer file.Close()
+	png.Encode(file, destData)
+}
