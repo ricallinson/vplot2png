@@ -9,6 +9,16 @@ import (
     "os"
 ) 
 
+func plot(data *os.File) *image.Gray {
+    // Work out the size from the source vplot file.
+    img := image.NewGray(image.Rect(0, 0, 100, 100)) 
+    for x := 20; x < 80; x++ { 
+        y := x/3 + 15 
+        img.Set(x, y, color.Black) 
+    }
+    return img
+}
+
 func main() { 
 
     flag.Parse()
@@ -25,14 +35,16 @@ func main() {
         return
     }
 
-    // Work out the size from the source vplot file.
-    img := image.NewRGBA(image.Rect(0, 0, 100, 100)) 
-    for x := 20; x < 80; x++ { 
-        y := x/3 + 15 
-        img.Set(x, y, color.Black) 
+    vplotData, err := os.Open(vplot)
+
+    if err != nil {
+        fmt.Println("Could not open the source vplot file.")
+        return
     }
+
+    destData := plot(vplotData)
 
     file, _ := os.Create(dest)
     defer file.Close()
-    png.Encode(file, img)
+    png.Encode(file, destData)
 } 
