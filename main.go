@@ -16,12 +16,12 @@ func main() {
     dest := flag.Arg(1)
 
     if vplot == "" {
-        fmt.Println("A source vplot file must be provide as the first parameter.")
+        fmt.Println("A source vplot file must be provide as the first argument.")
         return
     }
 
     if dest == "" {
-        fmt.Println("A destination file must be provide as the second parameter.")
+        fmt.Println("A destination file must be provide as the second argument.")
         return
     }
 
