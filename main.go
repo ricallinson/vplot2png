@@ -83,17 +83,17 @@ func draw(plots []*plot) *image.RGBA {
 	cx, cy := 0, 0
 	// fmt.Printf("x: %v, y: %v\n", cx, cy)
 	for _, p := range plots {
-        if p.cmd == "m" {
-            drawline(cx, cy, cx+p.x, cy+p.y, img)
-            cx, cy = cx+p.x, cy+p.y
-        } else if p.cmd == "M" {
-            drawline(cx, cy, p.x, p.y, img)
-            cx, cy = p.x, p.y
-        } else if p.cmd == "L" {
-            cx, cy = p.x, p.y
-        } else if p.cmd == "l" {
-            cx, cy = p.x, p.y
-        }
+		if p.cmd == "m" {
+			drawline(cx, cy, cx+p.x, cy+p.y, img)
+			cx, cy = cx+p.x, cy+p.y
+		} else if p.cmd == "M" {
+			drawline(cx, cy, p.x, p.y, img)
+			cx, cy = p.x, p.y
+		} else if p.cmd == "L" {
+			cx, cy = p.x, p.y
+		} else if p.cmd == "l" {
+			cx, cy = p.x, p.y
+		}
 		// fmt.Printf("x: %v, y: %v\n", cx, cy)
 	}
 	return img
