@@ -62,7 +62,7 @@ func drawline(x0, y0, x1, y1 int, img *image.RGBA, penSize int) {
 	err := dx - dy
 	for {
 		for s := 0; s <= penSize; s++ {
-			img.Set(x0 + s, y0 + s, color.Black)
+			img.Set(x0+s, y0+s, color.Black)
 		}
 		if x0 == x1 && y0 == y1 {
 			return
