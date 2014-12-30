@@ -23,9 +23,11 @@ func readPlotFile(f *os.File) (plots []*plot) {
 	for scanner.Scan() {
 		line := strings.Split(scanner.Text(), " ")
 		cmd := line[0]
-		x, _ := strconv.Atoi(line[1])
-		y, _ := strconv.Atoi(line[2])
-		plots = append(plots, &plot{cmd, x, y})
+		if len(line) == 3 {
+			x, _ := strconv.Atoi(line[1])
+			y, _ := strconv.Atoi(line[2])
+			plots = append(plots, &plot{cmd, x, y})
+		}
 	}
 	return plots
 }
