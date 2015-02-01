@@ -108,20 +108,19 @@ func main() {
 	var penSize = flag.Int("p", 5, "the size of the pen tip used for the drawing")
 
 	flag.Parse()
-	vplot := flag.Arg(0)
+	source := flag.Arg(0)
 	dest := flag.Arg(1)
 
-	if vplot == "" {
+	if source == "" {
 		fmt.Println("A source vplot file must be provide as the first argument.")
 		return
 	}
 
 	if dest == "" {
-		fmt.Println("A destination file must be provide as the second argument.")
-		return
+		dest = strings.Replace(source, ".vplot", "-vplot.png", 1)
 	}
 
-	vplotData, err := os.Open(vplot)
+	vplotData, err := os.Open(source)
 
 	if err != nil {
 		fmt.Println("Could not open the source vplot file.")
